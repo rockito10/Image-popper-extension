@@ -1,39 +1,35 @@
 "use strict";
-// chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-//   // if (message.type === "modifyBackground") {
-//   //   // Perform the desired modification
-//   //   console.log("Background script received message:", message.data);
-//   //   // Perform your desired background modification here
-//   //   parseInt("pepe");
-//   //   // Send a response back to the popup script
-//   sendResponse({ status: "success", data: "Background modified" });
-//   alert("pepe");
-// });
-// var bkg = chrome.extension.getBackgroundPage();
-// bkg.console.log("foo");
-let keysOrClasses = [];
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    // if (request.greeting === "hello") sendResponse({ farewell: "goodbye" });
-    // request.keyOrClass
-    keysOrClasses.push(request.keyOrClass);
-    console.log({ request, keysOrClasses });
-    // alert(keysOrClasses);
-    // throw new Error(keysOrClasses[0]);
-});
-chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-    // read changeInfo data and do something with it
-    // like send the new url to contentscripts.js
-    // console.log(changeInfo);
-    if (changeInfo.status == "complete") {
-        // console.log();
-        chrome.tabs.sendMessage(tabId, {
-            message: "changeurl",
-            url: changeInfo.url,
-        });
+function handleImageTabCreation() {
+    chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+        // create new tab with img message
+        if (request.create) {
+            const imageUrl = request.create;
+            console.log(request);
+            chrome.tabs.create({
+                url: imageUrl,
+                active: false,
+                // in this way, the tab is opened just after the sender tab, instead of it being the last tab always
+                index: sender.tab.index + 1,
+                openerTabId: sender.tab.id,
+            });
+        }
+    });
+}
+function observeTabUpdates() {
+    chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
+        // observes when the image holder tab is updated, because it may be an URL change (in SPA cases)
+        if (changeInfo.status == "complete") {
+            chrome.tabs.sendMessage(tabId, {
+                message: "possibleUrlChange",
+                url: changeInfo.url,
+            }, handleResponse);
+        }
+    });
+}
+function handleResponse(response) {
+    if (chrome.runtime.lastError) {
+        console.log("Error sending message to tab:", chrome.runtime.lastError.message);
     }
-});
-// }
-// chrome.tabs.sendMessage(tabId, {
-//   message: "hello!",
-//   url: changeInfo.url,
-// });
+}
+handleImageTabCreation();
+observeTabUpdates();

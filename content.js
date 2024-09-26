@@ -1,53 +1,22 @@
 "use strict";
-// keysOrClasses.forEach(async (keyOrClass) => {
-//   const img = document.getElementsByClassName(
-//     keyOrClass
-//   )[0] as HTMLImageElement;
-//   if (!img) {
-//     const img = document.getElementById(keyOrClass) as HTMLImageElement;
-//   }
-//   // alert(img);
-//   // const index = keysOrClasses.indexOf(keyOrClass);
-//   // keysOrClasses.splice(index, 1);
-//   window.open(img.src, "_blank");
-//   console.log("Pepe");
-//   await chrome.runtime.sendMessage({ daDog: "dog" });
-//   throw new Error("pepe");
-// });
-// chrome.runtime.sendMessage({ daDog: "dog" });
-// console.log("Pepe");
-// throw new Error("pepe");
-// const img = document.getElementsByClassName(
-//   "_28lPU _1_vBa"
-// )[0] as HTMLImageElement;
-// if (!img) {
-//   const img = document.getElementById("_28lPU _1_vBa") as HTMLImageElement;
-// }
-// window.open(img.src, "_blank");
-// window.addEventListener("popstate", () => {
-//   chrome.runtime.sendMessage({ daDog: "popstate" });
-// });
-// window.addEventListener("pushstate", () => {
-//   chrome.runtime.sendMessage({ daDog: "pushstate" });
-// });
-// Function to handle image opening logic
 function handleImageOpening() {
+    // handles getting the image, then sending it to background to open it in a new tab later
     const img = document.getElementsByClassName("_28lPU")[0];
-    if (!img) {
-        const img = document.getElementById("_28lPU");
-    }
     if (img) {
-        window.open(img.src, "_blank");
+        chrome.runtime.sendMessage({ create: img.src });
+        return;
     }
-    else {
-        console.warn("No image found for the specified class or ID.");
-    }
+    console.log("No image found for the specified class or ID");
 }
-let lastHref = window.location.href;
+// using this to prevent the same image from being opened multiple times
+// if the page has the same href, its not supposed to open two tabs, just one then sleep.
+let lastHref = "";
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    if (request.message === "changeurl" && lastHref !== window.location.href) {
+    // checks if the URL has changed, then opens the image in a new tab
+    const hasUrlChanged = lastHref !== window.location.href;
+    if (request.message === "possibleUrlChange" && hasUrlChanged) {
         handleImageOpening();
-        lastHref = window.location.href;
+        const currentUrl = window.location.href;
+        lastHref = currentUrl;
     }
 });
-handleImageOpening();
