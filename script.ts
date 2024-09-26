@@ -57,20 +57,13 @@ const button: HTMLButtonElement = document.getElementById(
   "addButton"
 ) as HTMLButtonElement;
 
-// let keysOrClasses: string[] = [];
 button.addEventListener("click", async (evt) => {
-  // evt.preventDefault();
-  alert("pepe");
   const value = textarea.value;
-  // keysOrClasses.push(value);
-  // alert(keysOrClasses);
   textarea.value = "";
-  // tabsPopping(keysOrClasses);
-  //raise an error
   const response = await chrome.runtime.sendMessage({ keyOrClass: value });
-  // do something with response here, not outside the function
-  // console.log(response);
 });
+
+
 
 // function tabsPopping(keysOrClasses: string[]) {
 //   // alert("pepe");

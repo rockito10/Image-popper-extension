@@ -11,19 +11,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 const textarea = document.getElementById("addTextarea");
 const button = document.getElementById("addButton");
-// let keysOrClasses: string[] = [];
 button.addEventListener("click", (evt) => __awaiter(void 0, void 0, void 0, function* () {
-    // evt.preventDefault();
-    alert("pepe");
     const value = textarea.value;
-    // keysOrClasses.push(value);
-    // alert(keysOrClasses);
     textarea.value = "";
-    // tabsPopping(keysOrClasses);
-    //raise an error
     const response = yield chrome.runtime.sendMessage({ keyOrClass: value });
-    // do something with response here, not outside the function
-    // console.log(response);
 }));
 // function tabsPopping(keysOrClasses: string[]) {
 //   // alert("pepe");

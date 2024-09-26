@@ -3,7 +3,12 @@
   "name": "Image Popper",
   "version": "0.0.1",
   "description": "Skips a step, letting see images easily.",
-  "permissions": ["activeTab", "scripting"],
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "declarativeContent",
+    "webNavigation"
+  ],
   "background": {
     "service_worker": "background.js"
   },
@@ -15,5 +20,11 @@
   },
   "icons": {
     "128": "icon128.png"
-  }
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.deviantart.com/*"],
+      "js": ["content.js"]
+    }
+  ]
 }
