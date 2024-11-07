@@ -1,13 +1,14 @@
 {
   "manifest_version": 3,
   "name": "Image Popper",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Skips a step, letting see images easily.",
   "permissions": [
     "activeTab",
     "scripting",
     "declarativeContent",
-    "webNavigation"
+    "webNavigation",
+    "storage"
   ],
   "background": {
     "service_worker": "background.js"
@@ -25,6 +26,10 @@
     {
       "matches": ["https://www.deviantart.com/*"],
       "js": ["content.js"]
+    },
+    {
+      "matches": ["https://www.deviantart.com/*"],
+      "js": ["generalContent.js"]
     }
   ]
 }
