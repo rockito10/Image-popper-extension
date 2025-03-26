@@ -1,100 +1,56 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>My Extension</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        width: 150px;
-        height: 50px;
-      }
-      .switchContainer {
-        display: flex;
-        flex-direction: column;
-        align-content: space-around;
-        margin-top: 10px;
-        column-gap: 20px;
-      }
-
-      /* The switch - the box around the slider */
-      .switch {
-        position: relative;
-        display: inline-block;
-        width: 30px;
-        height: 17px;
-      }
-
-      /* Hide default HTML checkbox */
-      .switch input {
-        opacity: 0;
-        width: 0;
-        height: 0;
-      }
-
-      /* The slider */
-      .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        -webkit-transition: 0.4s;
-        transition: 0.4s;
-      }
-
-      .slider:before {
-        position: absolute;
-        content: "";
-        height: 13px;
-        width: 13px;
-        left: 2px;
-        bottom: 2px;
-        background-color: white;
-        -webkit-transition: 0.4s;
-        transition: 0.4s;
-      }
-
-      input:checked + .slider {
-        background-color: #2196f3;
-      }
-
-      input:focus + .slider {
-        box-shadow: 0 0 1px #2196f3;
-      }
-
-      input:checked + .slider:before {
-        -webkit-transform: translateX(13px);
-        -ms-transform: translateX(13px);
-        transform: translateX(13px);
-      }
-
-      /* Rounded sliders */
-      .slider.round {
-        border-radius: 17px;
-      }
-
-      .slider.round:before {
-        border-radius: 50%;
-      }
-    </style>
+    <title>ImagePopupExtension</title>
+    <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="switchContainer">
-      <form>
+      <div class="spanAndSwitchContainer">
         <label class="switch">
           <input type="checkbox" checked id="extensionToggler" />
           <span class="slider round"></span>
         </label>
         <span>Toggle extension</span>
+      </div>
+
+      <div class="spanAndSwitchContainer">
         <label class="switch">
-          <input type="checkbox" id="deleteToggler" />
+          <input type="checkbox" id="replaceToggler" />
           <span class="slider round"></span>
         </label>
-        <span>Close on popup</span>
+        <span>Replace on popup</span>
+      </div>
+
+      <div class="spanAndSwitchContainer">
+        <label class="switch">
+          <input type="checkbox" checked id="collectorToggler" />
+          <span class="slider round"></span>
+        </label>
+        <span>Toggle collector</span>
+      </div>
+    </div>
+
+    <div>
+      <form id="addIdForm">
+        <textarea id="textarea"></textarea>
+        <button id="addIdButton">
+          <span>Add ID</span>
+        </button>
+        <button id="delIdButton">Delete ID</button>
       </form>
     </div>
+
+    <div>
+      <textarea readonly id="idsAndClasses"></textarea>
+    </div>
+
+    <div>
+      <form>
+        <button id="urlDepositButton">Deposit</button>
+      </form>
+    </div>
+
     <script src="popup.js"></script>
   </body>
 </html>

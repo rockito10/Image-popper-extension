@@ -1,15 +1,10 @@
 {
   "manifest_version": 3,
   "name": "Image Popper",
-  "version": "0.0.2",
+  "version": "2.0.0",
   "description": "Skips a step, letting see images easily.",
-  "permissions": [
-    "activeTab",
-    "scripting",
-    "declarativeContent",
-    "webNavigation",
-    "storage"
-  ],
+  "permissions": ["activeTab", "scripting", "declarativeContent", "webNavigation", "storage"],
+  "host_permissions": ["<all_urls>"],
   "background": {
     "service_worker": "background.js"
   },
@@ -24,12 +19,21 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://www.deviantart.com/*"],
+      "comentario": "añadir acá abajo los links que se pretendan poppear, en el caso de DA miro desde la página principal a todas que tengan barra algo",
+      "comentario2": "para poner otra, se pueden fijar si tienen la forma, por ejemplo, https://www.página.com/posts/*, lo cual es un poco mejor que mirar todo en general.",
+      "comentario3": "Usar comas para separar. Ah, y recordar añadir la clase o el id de la imagen / video, desde la extensión.",
+      "matches": ["https://www.deviantart.com/*", "https://www.example.com/posts/*"],
       "js": ["content.js"]
     },
     {
+      "comentario": "lugar para poner scripts útiles denro de de esas páginas, por ejemplo para evitar ver cierto contenido se puede borrar a todas las de x classname",
       "matches": ["https://www.deviantart.com/*"],
       "js": ["generalContent.js"]
+    },
+    {
+      "comentario": "para hacer compatible el collector con masonry, poner ubicación del masonry (es más fácil abrir el index.html y desde el navegador agarrar la URL)",
+      "matches": ["http://127.0.0.1:5500/*", "file:///*"],
+      "js": ["masonry.js"]
     }
   ]
 }
